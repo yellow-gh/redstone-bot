@@ -394,4 +394,4 @@ async def ping(ctx):
     embed.set_footer(text=f'angefordert von {ctx.author}')
     await ctx.send(embed=embed)
 
-bot.run('NzA4MjMwNzczMjE5Nzg2Nzkz.XrUVTg.q7KtR0wAFWLQuVt0EW_S-NKBZjQ')
+bot.run('Token')
