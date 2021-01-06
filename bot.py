@@ -53,6 +53,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
 
 antworten = ['Ja', 'Nein', 'Vielleicht', 'Wahrscheinlich', 'Sieht so aus', 'Sehr wahrscheinlich', 'Sehr unwahrscheinlich']
 teilnehmer = []
+embedcollor = [0xdfff00, 0xfa00f0]
 
 bot = commands.Bot(command_prefix='r!', intents=discord.Intents.all())
 bot.remove_command('help')
@@ -65,7 +66,7 @@ async def on_ready():
 @bot.event
 async def on_member_join(member):
     if not member.bot:
-        embed = discord.Embed(title="Willkommen auf yellow_redstone's discord {} ".format(member.name),description='von redstone bot', color=0xdfff00)
+        embed = discord.Embed(title="Willkommen auf yellow_redstone's discord {} ".format(member.name),description='von redstone bot', color=random.choice(embedcollor))
         embed.add_field(name="Hallo auch von meiner seite, ich Organisiere den ganzen Kram am server. Aber nun viel spaß auf yellow_redstone's discord",value='** **',inline=True)
         try:
             if not member.dm_channel:
@@ -172,44 +173,92 @@ async def change_status():
 @bot.command()
 async def help(ctx):
     if not ctx.author.bot:
-        embed = discord.Embed(title='Hilfe für den redstone bot', description='Dies ist die hilfe zum redstone bot. Prefix: r!',color=0xdfff00)
+        embed = discord.Embed(title='Hilfe für den redstone bot', description='Dies ist die hilfe zum redstone bot.',color=random.choice(embedcollor))
         embed.set_footer(text=f'angefordert von {ctx.author}')
-        embed.add_field(name='**add** - Startet ein Gewinnspiel',value='** **',inline=True)
-        embed.add_field(name='**chose** - wertet einen Gewinner aus',value='** **',inline=True)
-        embed.add_field(name='**play** - Spielt Musik ab',value='** **',inline=True)
-        embed.add_field(name='**stop** - Stoppt das abspielen von Musik',value='** **',inline=True)
-        embed.add_field(name='**pause** - Pausiert das abspielen von Musik',value='** **',inline=True)
-        embed.add_field(name='**resume** - Setzt das abspielen von Musik fort',value='** **',inline=True)
-        embed.add_field(name='**userinfo** - Zeigt Informationen über User an',value='** **',inline=True)
-        embed.add_field(name='**clear** - Löscht Nachrichten',value='** **',inline=True)
-        embed.add_field(name='**8ball** - Wahrsagefunktion',value='** **',inline=True)
+        embed.add_field(name='**gstart** - [text] Startet ein Gewinnspiel (nur für Berechtigte)',value='** **',inline=True)
+        embed.add_field(name='**gchose** - wertet einen Gewinner aus (nur für Berechtigte)',value='** **',inline=True)
+        embed.add_field(name='**play** - [lied] Spielt Musik ab (nur für Berechtigte)',value='** **',inline=True)
+        embed.add_field(name='**stop** - Stoppt das abspielen von Musik (nur für Berechtigte)',value='** **',inline=True)
+        embed.add_field(name='**pause** - Pausiert das abspielen von Musik (nur für Berechtigte)',value='** **',inline=True)
+        embed.add_field(name='**resume** - Setzt das abspielen von Musik fort (nur für Berechtigte)',value='** **',inline=True)
+        embed.add_field(name='**userinfo** - [user] Zeigt Informationen über User an',value='** **',inline=True)
+        embed.add_field(name='**clear** - [anzahl] Löscht Nachrichten (nur für Berechtigte)',value='** **',inline=True)
+        embed.add_field(name='**8ball** - [frage] Wahrsagefunktion',value='** **',inline=True)
         embed.add_field(name='**temp** - Zeigt die Temperatur des servers vom bot an',value='** **',inline=True)
         embed.add_field(name='**ping** - zur überprüfung der Latenz',value='** **',inline=True)
+        embed.add_field(name='**embed** - [text] [farbe : rot, gelb, gruen, blau] sendet ein embed (nur für Berechtigte)',value='** **',inline=True)
+        await ctx.send(embed=embed)
+
+@bot.command()
+@commands.has_permissions(change_nickname=True)
+async def embed(ctx, text, farbe='nix'):
+    await ctx.channel.purge(limit=1)
+
+    if farbe == 'rot':
+        embed = discord.Embed(title='👥 | {}'.format(ctx.author.name),color=0xff0000)
+        embed.add_field(name='{}'.format(text),value='** **',inline=True)
+        embed.set_thumbnail(url=ctx.author.avatar_url)
+        await ctx.send(embed=embed)
+
+    elif farbe == 'gelb':
+        embed = discord.Embed(title='👥 | {}'.format(ctx.author.name),color=0xdfff00)
+        embed.add_field(name='{}'.format(text),value='** **',inline=True)
+        embed.set_thumbnail(url=ctx.author.avatar_url)
+        await ctx.send(embed=embed)
+
+    elif farbe == 'gruen':
+        embed = discord.Embed(title='👥 | {}'.format(ctx.author.name),color=0x33ff00)
+        embed.add_field(name='{}'.format(text),value='** **',inline=True)
+        embed.set_thumbnail(url=ctx.author.avatar_url)
+        await ctx.send(embed=embed)
+
+    elif farbe == 'blau':
+        embed = discord.Embed(title='👥 | {}'.format(ctx.author.name),color=0x000cff)
+        embed.add_field(name='{}'.format(text),value='** **',inline=True)
+        embed.set_thumbnail(url=ctx.author.avatar_url)
+        await ctx.send(embed=embed)
+
+    else:
+        embed = discord.Embed(title='👥 | {}'.format(ctx.author.name),color=random.choice(embedcollor))
+        embed.add_field(name='{}'.format(text),value='** **',inline=True)
+        embed.set_thumbnail(url=ctx.author.avatar_url)
+        await ctx.send(embed=embed)
+
+@embed.error
+async def embed_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        embed = discord.Embed(title='**Error** ',color=random.choice(embedcollor))
+        embed.add_field(name='Du darft diesen Befehl nicht benutzen',value='** **',inline=True)
+        await ctx.send(embed=embed)
+
+    elif isinstance(error, commands.MissingRequiredArgument):
+        embed = discord.Embed(title='**Error** ',color=random.choice(embedcollor))
+        embed.add_field(name='hmm da fehlt was',value='** **',inline=True)
         await ctx.send(embed=embed)
 
 @bot.command()
 @commands.has_permissions(administrator=True)
-async def add(ctx, *, arg):
+async def gstart(ctx, *, arg):
     teilnehmer.clear()
     guild = bot.get_guild(597787927476699157)
     ping = guild.get_role(789530915268853811)
-    embed = discord.Embed(title='**Gewinnspiel**',color=0xdfff00)
+    embed = discord.Embed(title='**Gewinnspiel**',color=random.choice(embedcollor))
     embed.add_field(name='{}'.format(arg),value='** **',inline=True)
     embed.set_footer(text=f'Hostet by {ctx.author}')
     await ctx.channel.purge()
-    await ctx.send('{}'.format(te.mention))
+    await ctx.send('{}'.format(ping.mention))
     mess = await ctx.send(embed=embed)
     await mess.add_reaction('🎉')
 
-@add.error
-async def add_error(ctx, error):
+@gstart.error
+async def gstart_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
-        embed = discord.Embed(title='**Error** ',color=0xdfff00)
+        embed = discord.Embed(title='**Error** ',color=random.choice(embedcollor))
         embed.add_field(name='Du darft diesen Befehl nicht benutzen',value='** **',inline=True)
         await ctx.send(embed=embed)
 
-    if isinstance(error, commands.MissingRequiredArgument):
-        embed = discord.Embed(title='**Error** ',color=0xdfff00)
+    elif isinstance(error, commands.MissingRequiredArgument):
+        embed = discord.Embed(title='**Error** ',color=random.choice(embedcollor))
         embed.add_field(name='hmm da fehlt was',value='** **',inline=True)
         await ctx.send(embed=embed)
 
@@ -217,11 +266,11 @@ async def add_error(ctx, error):
 @commands.has_permissions(administrator=True)
 async def chose(ctx):
     winner = random.choice(teilnehmer)
-    embed = discord.Embed(title='**Gewinnspiel**',color=0xdfff00)
+    embed = discord.Embed(title='**Gewinnspiel**',color=random.choice(embedcollor))
     embed.add_field(name='🥇{} hat gewonnen'.format(winner),value='** **',inline=True)
     await ctx.send('{}'.format(winner.mention))
     await ctx.send(embed=embed)
-    embed = discord.Embed(title='**Gewinnspiel**',color=0xdfff00)
+    embed = discord.Embed(title='**Gewinnspiel**',color=random.choice(embedcollor))
     embed.add_field(name="du hast bei einem Gewinnspiel gewonnen" ,value='** **',inline=True)
     try:
         if not winner.dm_channel:
@@ -233,7 +282,7 @@ async def chose(ctx):
 @chose.error
 async def chose_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
-        embed = discord.Embed(title='**Error** ',color=0xdfff00)
+        embed = discord.Embed(title='**Error** ',color=random.choice(embedcollor))
         embed.add_field(name='Du darft diesen Befehl nicht benutzen',value='** **',inline=True)
         await ctx.send(embed=embed)
 
@@ -244,7 +293,7 @@ async def play(ctx, *, url):
     member = discord.utils.find(lambda m : m.id == 708230773219786793, guild.members)
     if not member.voice:
         if not ctx.message.author.voice:
-            embed = discord.Embed(title='**Error** ',color=0xdfff00)
+            embed = discord.Embed(title='**Error** ',color=random.choice(embedcollor))
             embed.add_field(name='Du bist mit keinem Sprachkanal verbunden',value='** **',inline=True)
             await ctx.send(embed=embed)
             return
@@ -264,18 +313,23 @@ async def play(ctx, *, url):
             player = await YTDLSource.from_url(url, loop=bot.loop)
             voice_channel.play(player, after=lambda e: print('Player error: %s' % e) if e else None)
 
-        embed = discord.Embed(title='**Spielt jetzt:** ', description='**{}**'.format(player.title),color=0xdfff00)
+        embed = discord.Embed(title='**Spielt jetzt:** ', description='**{}**'.format(player.title),color=random.choice(embedcollor))
         embed.set_footer(text=f'hinzugefügt von {ctx.author}')
+        await ctx.send(embed=embed)
+
+    else:
+        embed = discord.Embed(title='**Error** ',color=random.choice(embedcollor))
+        embed.add_field(name='du kannst aktuel keine Musik abspielen', value='** **', inline=True)
         await ctx.send(embed=embed)
 
 @play.error
 async def play_error(ctx, error):
     if isinstance(error, commands.MissingRole):
-        embed = discord.Embed(title='**Error** ',color=0xdfff00)
+        embed = discord.Embed(title='**Error** ',color=random.choice(embedcollor))
         embed.add_field(name='Du darft diesen Befehl nicht benutzen', value='** **', inline=True)
         await ctx.send(embed=embed)
     elif isinstance(error, commands.MissingRequiredArgument):
-        embed = discord.Embed(title='**Error** ',color=0xdfff00)
+        embed = discord.Embed(title='**Error** ',color=random.choice(embedcollor))
         embed.add_field(name='Du hast kein Musikstück angegeben', value='** **', inline=True)
         await ctx.send(embed=embed)
 
@@ -290,7 +344,7 @@ async def pause(ctx):
 @pause.error
 async def pause_error(ctx, error):
     if isinstance(error, commands.MissingRole):
-        embed = discord.Embed(title='**Error** ',color=0xdfff00)
+        embed = discord.Embed(title='**Error** ',color=random.choice(embedcollor))
         embed.add_field(name='Du darft diesen Befehl nicht benutzen',value='** **',inline=True)
         await ctx.send(embed=embed)
 
@@ -305,7 +359,7 @@ async def resume(ctx):
 @resume.error
 async def resume_error(ctx, error):
     if isinstance(error, commands.MissingRole):
-        embed = discord.Embed(title='**Error** ',color=0xdfff00)
+        embed = discord.Embed(title='**Error** ',color=random.choice(embedcollor))
         embed.add_field(name='Du darft diesen Befehl nicht benutzen',value='** **',inline=True)
         await ctx.send(embed=embed)
 
@@ -321,23 +375,26 @@ async def stop_(ctx):
 @stop_.error
 async def stop_error(ctx, error):
     if isinstance(error, commands.MissingRole):
-        embed = discord.Embed(title='**Error** ',color=0xdfff00)
+        embed = discord.Embed(title='**Error** ',color=random.choice(embedcollor))
         embed.add_field(name='Du darft diesen Befehl nicht benutzen',value='** **',inline=True)
         await ctx.send(embed=embed)
 
 @bot.command()
 async def userinfo(ctx, member : discord.Member):
-    embed = discord.Embed(title='Userinfo für {}'.format(member.name),description='Dies ist eine Userinfo für den User {}'.format(member.mention),color=0xdfff00)
-    embed.add_field(name='Server beigetreten', value=member.joined_at.strftime('%d/%m/%Y, %H:%M:%S'),inline=True)
-    embed.add_field(name='Discord beigetreten', value=member.created_at.strftime('%d/%m/%Y, %H:%M:%S'),inline=True)
-    embed.set_thumbnail(url=member.avatar_url)
-    embed.set_footer(text=f'angefordert von {ctx.author}')
+    try:
+        embed = discord.Embed(title='Userinfo für {}'.format(member.name),description='Dies ist eine Userinfo für den User {}'.format(member.mention),color=random.choice(embedcollor))
+        embed.add_field(name='Server beigetreten', value=member.joined_at.strftime('%d/%m/%Y, %H:%M:%S'),inline=True)
+        embed.add_field(name='Discord beigetreten', value=member.created_at.strftime('%d/%m/%Y, %H:%M:%S'),inline=True)
+        embed.set_thumbnail(url=member.avatar_url)
+        embed.set_footer(text=f'angefordert von {ctx.author}')
+    except:
+        print('userinfo error')
     await ctx.send(embed=embed)
 
 @userinfo.error
 async def userinfo_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
-        embed = discord.Embed(title='**Error** ',color=0xdfff00)
+        embed = discord.Embed(title='**Error** ',color=random.choice(embedcollor))
         embed.add_field(name='Du hast keinen User angegeben',value='** **',inline=True)
         await ctx.send(embed=embed)
 
@@ -346,35 +403,35 @@ async def userinfo_error(ctx, error):
 async def clear(ctx, amount=1):
     count = amount + 1
     await ctx.channel.purge(limit=count)
-    embed = discord.Embed(title='**Clear**', description='{0} Nachrichten wurden gelöscht'.format(amount),color=0xdfff00)
+    embed = discord.Embed(title='**Clear**', description='{0} Nachrichten wurden gelöscht'.format(amount),color=random.choice(embedcollor))
     embed.set_footer(text=f'angefordert von {ctx.author}')
     await ctx.send(embed=embed, delete_after=5.0)
 
 @clear.error
 async def clear_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
-        embed = discord.Embed(title='**Error** ',color=0xdfff00)
+        embed = discord.Embed(title='**Error** ',color=random.choice(embedcollor))
         embed.add_field(name='Du darft diesen Befehl nicht benutzen',value='** **',inline=True)
         await ctx.send(embed=embed)
 
 @bot.command(name='8ball')
 async def ball(ctx, *, arg):
-    embed = discord.Embed(title='**8ball**', description='Ich versuche deine Frage `{0}` zu beantworten.'.format(arg),color=0x22a7f0)
+    embed = discord.Embed(title='**8ball**', description='Ich versuche deine Frage `{0}` zu beantworten.'.format(arg),color=random.choice(embedcollor))
     embed.set_footer(text=f'angefordert von {ctx.author}')
     await ctx.send(embed=embed, delete_after=2.0)
     await asyncio.sleep(2)
-    embed = discord.Embed(title='**8ball**', description='Ich kontaktiere das Orakel...',color=0xdfff00)
+    embed = discord.Embed(title='**8ball**', description='Ich kontaktiere das Orakel...',color=random.choice(embedcollor))
     embed.set_footer(text=f'angefordert von {ctx.author}')
     await ctx.send(embed=embed, delete_after=2.0)
     await asyncio.sleep(2)
-    embed = discord.Embed(title='**8ball**', description='Deine Antwort zur Frage `{0}` lautet: `{1}`'.format(arg, random.choice(antworten)),color=0xdfff00)
+    embed = discord.Embed(title='**8ball**', description='Deine Antwort zur Frage `{0}` lautet: `{1}`'.format(arg, random.choice(antworten)),color=random.choice(embedcollor))
     embed.set_footer(text=f'angefordert von {ctx.author}')
     await ctx.send(embed=embed)
 
 @ball.error
 async def ball_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
-        embed = discord.Embed(title='**Error** ', description='',color=0xdfff00)
+        embed = discord.Embed(title='**Error** ', description='',color=random.choice(embedcollor))
         embed.add_field(name='Du hast keine Frage angegeben',value='** **',inline=True)
         await ctx.send(embed=embed)
 
@@ -384,13 +441,13 @@ async def temp(ctx):
     dateilesen = open(tempData, "r")
     temperatur = dateilesen.readline(2)
     dateilesen.close()
-    embed = discord.Embed(title='Temperatur', description='Die CPU hat ' + temperatur + ' Grad',color=0xdfff00)
+    embed = discord.Embed(title='Temperatur', description='Die CPU hat ' + temperatur + ' Grad',color=random.choice(embedcollor))
     embed.set_footer(text=f'angefordert von {ctx.author}')
     await ctx.send(embed=embed)
 
 @bot.command()
 async def ping(ctx):
-    embed = discord.Embed(title='**Pong!**', description=f'Latenz: {round(bot.latency * 1000)}ms',color=0x22a7f0)
+    embed = discord.Embed(title='**Pong!**', description=f'Latenz: {round(bot.latency * 1000)}ms',color=random.choice(embedcollor))
     embed.set_footer(text=f'angefordert von {ctx.author}')
     await ctx.send(embed=embed)
 
