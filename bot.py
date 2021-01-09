@@ -173,56 +173,81 @@ async def change_status():
 @bot.command()
 async def help(ctx):
     if not ctx.author.bot:
-        embed = discord.Embed(title='Hilfe für den redstone bot', description='Dies ist die hilfe zum redstone bot.',color=random.choice(embedcollor))
-        embed.set_footer(text=f'angefordert von {ctx.author}')
-        embed.add_field(name='**gstart** - [text] Startet ein Gewinnspiel (nur für Berechtigte)',value='** **',inline=True)
-        embed.add_field(name='**gchose** - wertet einen Gewinner aus (nur für Berechtigte)',value='** **',inline=True)
-        embed.add_field(name='**play** - [lied] Spielt Musik ab (nur für Berechtigte)',value='** **',inline=True)
-        embed.add_field(name='**stop** - Stoppt das abspielen von Musik (nur für Berechtigte)',value='** **',inline=True)
-        embed.add_field(name='**pause** - Pausiert das abspielen von Musik (nur für Berechtigte)',value='** **',inline=True)
-        embed.add_field(name='**resume** - Setzt das abspielen von Musik fort (nur für Berechtigte)',value='** **',inline=True)
-        embed.add_field(name='**userinfo** - [user] Zeigt Informationen über User an',value='** **',inline=True)
-        embed.add_field(name='**clear** - [anzahl] Löscht Nachrichten (nur für Berechtigte)',value='** **',inline=True)
-        embed.add_field(name='**8ball** - [frage] Wahrsagefunktion',value='** **',inline=True)
-        embed.add_field(name='**temp** - Zeigt die Temperatur des servers vom bot an',value='** **',inline=True)
-        embed.add_field(name='**ping** - zur überprüfung der Latenz',value='** **',inline=True)
-        embed.add_field(name='**embed** - [text] [farbe : rot, gelb, gruen, blau] sendet ein embed (nur für Berechtigte)',value='** **',inline=True)
-        await ctx.send(embed=embed)
+        if ctx.author.guild_permissions.administrator:
+            embed = discord.Embed(title='Hilfe für den redstone bot', description='Dies ist die hilfe zum redstone bot.(Eckige Klammern weglassen)',color=random.choice(embedcollor))
+            embed.set_footer(text=f'angefordert von {ctx.author}')
+            embed.add_field(name='**gstart** - [text] Startet ein Gewinnspiel (nur für Berechtigte)',value='** **',inline=True)
+            embed.add_field(name='**gchose** - wertet einen Gewinner aus (nur für Berechtigte)',value='** **',inline=True)
+            embed.add_field(name='**play** - [lied] Spielt Musik ab (nur für Berechtigte)',value='** **',inline=True)
+            embed.add_field(name='**stop** - Stoppt das abspielen von Musik (nur für Berechtigte)',value='** **',inline=True)
+            embed.add_field(name='**pause** - Pausiert das abspielen von Musik (nur für Berechtigte)',value='** **',inline=True)
+            embed.add_field(name='**resume** - Setzt das abspielen von Musik fort (nur für Berechtigte)',value='** **',inline=True)
+            embed.add_field(name='**userinfo** - [user] Zeigt Informationen über User an',value='** **',inline=True)
+            embed.add_field(name='**clear** - [anzahl] Löscht Nachrichten (nur für Berechtigte)',value='** **',inline=True)
+            embed.add_field(name='**8ball** - [frage] Wahrsagefunktion',value='** **',inline=True)
+            embed.add_field(name='**temp** - Zeigt die Temperatur des servers vom bot an',value='** **',inline=True)
+            embed.add_field(name='**ping** - zur überprüfung der Latenz',value='** **',inline=True)
+            embed.add_field(name='**embed** - [text] sendet ein embed (nur für Berechtigte)',value='** **',inline=True)
+            await ctx.send(embed=embed)
+
+        elif ctx.author.guild_permissions.change_nickname and ctx.author.guild_permissions.view_audit_log:
+            embed = discord.Embed(title='Hilfe für den redstone bot', description='Dies ist die hilfe zum redstone bot.(Eckige Klammern weglassen)',color=random.choice(embedcollor))
+            embed.set_footer(text=f'angefordert von {ctx.author}')
+            embed.add_field(name='**userinfo** - [user] Zeigt Informationen über User an',value='** **',inline=True)
+            embed.add_field(name='**play** - [lied] Spielt Musik ab (nur für Berechtigte)',value='** **',inline=True)
+            embed.add_field(name='**stop** - Stoppt das abspielen von Musik (nur für Berechtigte)',value='** **',inline=True)
+            embed.add_field(name='**pause** - Pausiert das abspielen von Musik (nur für Berechtigte)',value='** **',inline=True)
+            embed.add_field(name='**resume** - Setzt das abspielen von Musik fort (nur für Berechtigte)',value='** **',inline=True)
+            embed.add_field(name='**clear** - [anzahl] Löscht Nachrichten (nur für Berechtigte)',value='** **',inline=True)
+            embed.add_field(name='**8ball** - [frage] Wahrsagefunktion',value='** **',inline=True)
+            embed.add_field(name='**temp** - Zeigt die Temperatur des servers vom bot an',value='** **',inline=True)
+            embed.add_field(name='**ping** - zur überprüfung der Latenz',value='** **',inline=True)
+            embed.add_field(name='**embed** - [text] sendet ein embed (nur für Berechtigte)',value='** **',inline=True)
+            await ctx.send(embed=embed)
+
+        elif ctx.author.guild_permissions.change_nickname:
+            embed = discord.Embed(title='Hilfe für den redstone bot', description='Dies ist die hilfe zum redstone bot.(Eckige Klammern weglassen)',color=random.choice(embedcollor))
+            embed.set_footer(text=f'angefordert von {ctx.author}')
+            embed.add_field(name='**userinfo** - [user] Zeigt Informationen über User an',value='** **',inline=True)
+            embed.add_field(name='**clear** - [anzahl] Löscht Nachrichten (nur für Berechtigte)',value='** **',inline=True)
+            embed.add_field(name='**8ball** - [frage] Wahrsagefunktion',value='** **',inline=True)
+            embed.add_field(name='**temp** - Zeigt die Temperatur des servers vom bot an',value='** **',inline=True)
+            embed.add_field(name='**ping** - zur überprüfung der Latenz',value='** **',inline=True)
+            embed.add_field(name='**embed** - [text] sendet ein embed (nur für Berechtigte)',value='** **',inline=True)
+            await ctx.send(embed=embed)
+
+        elif ctx.author.guild_permissions.view_audit_log:
+            embed = discord.Embed(title='Hilfe für den redstone bot', description='Dies ist die hilfe zum redstone bot.(Eckige Klammern weglassen)',color=random.choice(embedcollor))
+            embed.set_footer(text=f'angefordert von {ctx.author}')
+            embed.add_field(name='**play** - [lied] Spielt Musik ab (nur für Berechtigte)',value='** **',inline=True)
+            embed.add_field(name='**stop** - Stoppt das abspielen von Musik (nur für Berechtigte)',value='** **',inline=True)
+            embed.add_field(name='**pause** - Pausiert das abspielen von Musik (nur für Berechtigte)',value='** **',inline=True)
+            embed.add_field(name='**resume** - Setzt das abspielen von Musik fort (nur für Berechtigte)',value='** **',inline=True)
+            embed.add_field(name='**userinfo** - [user] Zeigt Informationen über User an',value='** **',inline=True)
+            embed.add_field(name='**clear** - [anzahl] Löscht Nachrichten (nur für Berechtigte)',value='** **',inline=True)
+            embed.add_field(name='**8ball** - [frage] Wahrsagefunktion',value='** **',inline=True)
+            embed.add_field(name='**temp** - Zeigt die Temperatur des servers vom bot an',value='** **',inline=True)
+            embed.add_field(name='**ping** - zur überprüfung der Latenz',value='** **',inline=True)
+            await ctx.send(embed=embed)
+
+        else:
+            embed = discord.Embed(title='Hilfe für den redstone bot', description='Dies ist die hilfe zum redstone bot.(Eckige Klammern weglassen)',color=random.choice(embedcollor))
+            embed.set_footer(text=f'angefordert von {ctx.author}')
+            embed.add_field(name='**userinfo** - [user] Zeigt Informationen über User an',value='** **',inline=True)
+            embed.add_field(name='**clear** - [anzahl] Löscht Nachrichten (nur für Berechtigte)',value='** **',inline=True)
+            embed.add_field(name='**8ball** - [frage] Wahrsagefunktion',value='** **',inline=True)
+            embed.add_field(name='**temp** - Zeigt die Temperatur des servers vom bot an',value='** **',inline=True)
+            embed.add_field(name='**ping** - zur überprüfung der Latenz',value='** **',inline=True)
+            await ctx.send(embed=embed)
 
 @bot.command()
 @commands.has_permissions(change_nickname=True)
-async def embed(ctx, text, farbe='nix'):
+async def embed(ctx, *, text):
     await ctx.channel.purge(limit=1)
-
-    if farbe == 'rot':
-        embed = discord.Embed(title='👥 | {}'.format(ctx.author.name),color=0xff0000)
-        embed.add_field(name='{}'.format(text),value='** **',inline=True)
-        embed.set_thumbnail(url=ctx.author.avatar_url)
-        await ctx.send(embed=embed)
-
-    elif farbe == 'gelb':
-        embed = discord.Embed(title='👥 | {}'.format(ctx.author.name),color=0xdfff00)
-        embed.add_field(name='{}'.format(text),value='** **',inline=True)
-        embed.set_thumbnail(url=ctx.author.avatar_url)
-        await ctx.send(embed=embed)
-
-    elif farbe == 'gruen':
-        embed = discord.Embed(title='👥 | {}'.format(ctx.author.name),color=0x33ff00)
-        embed.add_field(name='{}'.format(text),value='** **',inline=True)
-        embed.set_thumbnail(url=ctx.author.avatar_url)
-        await ctx.send(embed=embed)
-
-    elif farbe == 'blau':
-        embed = discord.Embed(title='👥 | {}'.format(ctx.author.name),color=0x000cff)
-        embed.add_field(name='{}'.format(text),value='** **',inline=True)
-        embed.set_thumbnail(url=ctx.author.avatar_url)
-        await ctx.send(embed=embed)
-
-    else:
-        embed = discord.Embed(title='👥 | {}'.format(ctx.author.name),color=random.choice(embedcollor))
-        embed.add_field(name='{}'.format(text),value='** **',inline=True)
-        embed.set_thumbnail(url=ctx.author.avatar_url)
-        await ctx.send(embed=embed)
+    embed = discord.Embed(title='👥 | {}'.format(ctx.author.name),color=random.choice(embedcollor))
+    embed.add_field(name='{}'.format(text),value='** **',inline=True)
+    embed.set_thumbnail(url=ctx.author.avatar_url)
+    await ctx.send(embed=embed)
 
 @embed.error
 async def embed_error(ctx, error):
@@ -398,6 +423,11 @@ async def userinfo_error(ctx, error):
         embed.add_field(name='Du hast keinen User angegeben',value='** **',inline=True)
         await ctx.send(embed=embed)
 
+    elif isinstance(error, commands.BadArgument):
+        embed = discord.Embed(title='**Error** ',color=random.choice(embedcollor))
+        embed.add_field(name='User wurde nicht gefunden',value='** **',inline=True)
+        await ctx.send(embed=embed)
+
 @bot.command()
 @commands.has_permissions(manage_messages=True)
 async def clear(ctx, amount=1):
@@ -451,4 +481,4 @@ async def ping(ctx):
     embed.set_footer(text=f'angefordert von {ctx.author}')
     await ctx.send(embed=embed)
 
-bot.run('Token')
+bot.run('NzA4MjMwNzczMjE5Nzg2Nzkz.XrUVTg.E7i_o-09alAQydveOMMpl9yTiHI')
