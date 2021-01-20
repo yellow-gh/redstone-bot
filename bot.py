@@ -66,6 +66,11 @@ async def on_ready():
 @bot.event
 async def on_member_join(member):
     if not member.bot:
+        guild = bot.get_guild(597787927476699157)
+        role = guild.get_role(722031383362404382)
+        role2 = guild.get_role(789520194552332308)
+        await member.add_roles(role)
+        await member.add_roles(role2)
         embed = discord.Embed(title="Willkommen auf yellow_redstone's discord {} ".format(member.name),description='von redstone bot', color=random.choice(embedcollor))
         embed.add_field(name="Hallo auch von meiner seite, ich Organisiere den ganzen Kram am server. Aber nun viel spaß auf yellow_redstone's discord",value='** **',inline=True)
         try:
@@ -77,15 +82,6 @@ async def on_member_join(member):
 
 @bot.event
 async def on_raw_reaction_add(payload):
-    if payload.channel_id == 690918405766905936:
-        if payload.emoji.name == "✅":
-            guild = bot.get_guild(597787927476699157)
-            role = guild.get_role(722031383362404382)
-            role2 = guild.get_role(789520194552332308)
-            member = discord.utils.find(lambda m : m.id == payload.user_id, guild.members)
-            await member.add_roles(role)
-            await member.add_roles(role2)
-
     if payload.channel_id == 789531336187707422:
         if payload.emoji.name == "📢":
             guild = bot.get_guild(597787927476699157)
@@ -124,15 +120,6 @@ async def on_raw_reaction_add(payload):
 
 @bot.event
 async def on_raw_reaction_remove(payload):
-    if payload.channel_id == 690918405766905936:
-        if payload.emoji.name == "✅":
-            guild = bot.get_guild(597787927476699157)
-            role = guild.get_role(722031383362404382)
-            role2 = guild.get_role(789520194552332308)
-            member = discord.utils.find(lambda m : m.id == payload.user_id, guild.members)
-            await member.remove_roles(role)
-            await member.remove_roles(role2)
-
     if payload.channel_id == 789531336187707422:
         if payload.emoji.name == "📢":
             guild = bot.get_guild(597787927476699157)
