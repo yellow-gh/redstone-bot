@@ -113,11 +113,18 @@ async def on_raw_reaction_add(payload):
             await member.add_roles(role)
 
     if payload.channel_id == 789531336187707422:
-        if payload.emoji.name == "🟥":
+        if payload.emoji.name == "⏯":
             guild = bot.get_guild(597787927476699157)
             role = guild.get_role(792113253421154314)
             member = discord.utils.find(lambda m : m.id == payload.user_id, guild.members)
             await member.add_roles(role)
+            
+    if payload.channel_id == 789531336187707422:
+        if payload.emoji.name == "🤖":
+            guild = bot.get_guild(597787927476699157)
+            role = guild.get_role(797543297534918737)
+            member = discord.utils.find(lambda m : m.id == payload.user_id, guild.members)
+            await member.remove_roles(role)
 
     if payload.channel_id == 789478285205569559:
         guild = bot.get_guild(597787927476699157)
@@ -151,12 +158,19 @@ async def on_raw_reaction_remove(payload):
             await member.remove_roles(role)
 
     if payload.channel_id == 789531336187707422:
-        if payload.emoji.name == "🟥":
+        if payload.emoji.name == "⏯":
             guild = bot.get_guild(597787927476699157)
             role = guild.get_role(792113253421154314)
             member = discord.utils.find(lambda m : m.id == payload.user_id, guild.members)
             await member.remove_roles(role)
-
+           
+    if payload.channel_id == 789531336187707422:
+        if payload.emoji.name == "🤖":
+            guild = bot.get_guild(597787927476699157)
+            role = guild.get_role(797543297534918737)
+            member = discord.utils.find(lambda m : m.id == payload.user_id, guild.members)
+            await member.remove_roles(role)
+    
 @tasks.loop(seconds=10)
 async def change_status():
     await bot.change_presence(activity=discord.Game('ich spiele nicht ich arbeite'), status=discord.Status.online)
