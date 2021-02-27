@@ -113,18 +113,18 @@ async def on_raw_reaction_add(payload):
             await member.add_roles(role)
 
     if payload.channel_id == 789531336187707422:
-        if payload.emoji.name == "⏯":
+        if payload.emoji.name == "🟥":
             guild = bot.get_guild(597787927476699157)
             role = guild.get_role(792113253421154314)
             member = discord.utils.find(lambda m : m.id == payload.user_id, guild.members)
             await member.add_roles(role)
-            
+
     if payload.channel_id == 789531336187707422:
         if payload.emoji.name == "🤖":
             guild = bot.get_guild(597787927476699157)
-            role = guild.get_role(797543297534918737)
+            role = guild.get_role(806094937887342603)
             member = discord.utils.find(lambda m : m.id == payload.user_id, guild.members)
-            await member.remove_roles(role)
+            await member.add_roles(role)
 
     if payload.channel_id == 789478285205569559:
         guild = bot.get_guild(597787927476699157)
@@ -158,19 +158,19 @@ async def on_raw_reaction_remove(payload):
             await member.remove_roles(role)
 
     if payload.channel_id == 789531336187707422:
-        if payload.emoji.name == "⏯":
+        if payload.emoji.name == "🟥":
             guild = bot.get_guild(597787927476699157)
             role = guild.get_role(792113253421154314)
             member = discord.utils.find(lambda m : m.id == payload.user_id, guild.members)
             await member.remove_roles(role)
-           
+
     if payload.channel_id == 789531336187707422:
         if payload.emoji.name == "🤖":
             guild = bot.get_guild(597787927476699157)
-            role = guild.get_role(797543297534918737)
+            role = guild.get_role(806094937887342603)
             member = discord.utils.find(lambda m : m.id == payload.user_id, guild.members)
             await member.remove_roles(role)
-    
+
 @tasks.loop(seconds=10)
 async def change_status():
     await bot.change_presence(activity=discord.Game('ich spiele nicht ich arbeite'), status=discord.Status.online)
@@ -183,87 +183,34 @@ async def change_status():
 @bot.command()
 async def help(ctx):
     if not ctx.author.bot:
-        if ctx.author.guild_permissions.administrator:
-            embed = discord.Embed(title='Hilfe für den redstone bot', description='Dies ist die hilfe zum redstone bot.(Eckige Klammern weglassen)',color=random.choice(embedcollor))
-            embed.set_footer(text=f'angefordert von {ctx.author}')
-            embed.add_field(name='**gstart** [text]',value='Startet ein Gewinnspiel (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**gchose**',value='wertet einen Gewinner aus (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**play** [lied]',value='Spielt Musik ab (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**stop**',value='Stoppt das abspielen von Musik (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**pause**',value='Pausiert das abspielen von Musik (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**resume**',value='Setzt das abspielen von Musik fort (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**userinfo** [user]',value='Zeigt Informationen über User an',inline=True)
-            embed.add_field(name='**clear** [anzahl]',value='Löscht Nachrichten (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**8ball** [frage]',value='Wahrsagefunktion',inline=True)
-            embed.add_field(name='**temp**',value='Zeigt die Temperatur des servers vom bot an',inline=True)
-            embed.add_field(name='**ping**',value='zur überprüfung der Latenz',inline=True)
-            embed.add_field(name='**embed** [text]',value='sendet ein embed (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**flip**',value='coinflip funktion',inline=True)
-            await ctx.send(embed=embed)
-
-        elif ctx.author.guild_permissions.change_nickname and ctx.author.guild_permissions.view_audit_log:
-            embed = discord.Embed(title='Hilfe für den redstone bot', description='Dies ist die hilfe zum redstone bot.(Eckige Klammern weglassen)',color=random.choice(embedcollor))
-            embed.set_footer(text=f'angefordert von {ctx.author}')
-            embed.add_field(name='**play** [lied]',value='Spielt Musik ab (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**stop**',value='Stoppt das abspielen von Musik (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**pause**',value='Pausiert das abspielen von Musik (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**resume**',value='Setzt das abspielen von Musik fort (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**userinfo** [user]',value='Zeigt Informationen über User an',inline=True)
-            embed.add_field(name='**8ball** [frage]',value='Wahrsagefunktion',inline=True)
-            embed.add_field(name='**temp**',value='Zeigt die Temperatur des servers vom bot an',inline=True)
-            embed.add_field(name='**ping**',value='zur überprüfung der Latenz',inline=True)
-            embed.add_field(name='**embed** [text] ',value='sendet ein embed (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**flip**',value='coinflip funktion',inline=True)
-            await ctx.send(embed=embed)
-
-        elif ctx.author.guild_permissions.change_nickname:
-            embed = discord.Embed(title='Hilfe für den redstone bot', description='Dies ist die hilfe zum redstone bot.(Eckige Klammern weglassen)',color=random.choice(embedcollor))
-            embed.set_footer(text=f'angefordert von {ctx.author}')
-            embed.add_field(name='**userinfo** [user]',value='Zeigt Informationen über User an',inline=True)
-            embed.add_field(name='**clear** [anzahl]',value='Löscht Nachrichten (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**8ball** [frage]',value='Wahrsagefunktion',inline=True)
-            embed.add_field(name='**temp**',value='Zeigt die Temperatur des servers vom bot an',inline=True)
-            embed.add_field(name='**ping**',value='zur überprüfung der Latenz',inline=True)
-            embed.add_field(name='**embed** [text]',value='sendet ein embed (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**flip**',value='coinflip funktion',inline=True)
-            await ctx.send(embed=embed)
-
-        elif ctx.author.guild_permissions.view_audit_log:
-            embed = discord.Embed(title='Hilfe für den redstone bot', description='Dies ist die hilfe zum redstone bot.(Eckige Klammern weglassen)',color=random.choice(embedcollor))
-            embed.set_footer(text=f'angefordert von {ctx.author}')
-            embed.add_field(name='**play** [lied]',value='Spielt Musik ab (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**stop**',value='Stoppt das abspielen von Musik (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**pause**',value='Pausiert das abspielen von Musik (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**resume**',value='Setzt das abspielen von Musik fort (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**userinfo** [user]',value='Zeigt Informationen über User an',inline=True)
-            embed.add_field(name='**clear** [anzahl]',value='Löscht Nachrichten (nur für Berechtigte)',inline=True)
-            embed.add_field(name='**8ball** [frage]',value='Wahrsagefunktion',inline=True)
-            embed.add_field(name='**temp**',value='Zeigt die Temperatur des servers vom bot an',inline=True)
-            embed.add_field(name='**ping**',value='zur überprüfung der Latenz',inline=True)
-            embed.add_field(name='**flip**',value='coinflip funktion',inline=True)
-            await ctx.send(embed=embed)
-
-        else:
-            embed = discord.Embed(title='Hilfe für den redstone bot', description='Dies ist die hilfe zum redstone bot.(Eckige Klammern weglassen)',color=random.choice(embedcollor))
-            embed.set_footer(text=f'angefordert von {ctx.author}')
-            embed.add_field(name='**userinfo** [user]',value='Zeigt Informationen über User an',inline=True)
-            embed.add_field(name='**8ball** [frage]',value='[frage] Wahrsagefunktion',inline=True)
-            embed.add_field(name='**temp**',value='Zeigt die Temperatur des servers vom bot an',inline=True)
-            embed.add_field(name='**ping**',value='zur überprüfung der Latenz',inline=True)
-            embed.add_field(name='**flip**',value='coinflip funktion',inline=True)
-            await ctx.send(embed=embed)
+        embed = discord.Embed(title='Hilfe für den redstone bot', description='Dies ist die hilfe zum redstone bot.(Eckige Klammern weglassen)',color=random.choice(embedcollor))
+        embed.set_footer(text=f'angefordert von {ctx.author}')
+        embed.add_field(name='**gstart** [text]',value='Startet ein Gewinnspiel (nur für Berechtigte)',inline=True)
+        embed.add_field(name='**gchose**',value='wertet einen Gewinner aus (nur für Berechtigte)',inline=True)
+        embed.add_field(name='**play** [lied]',value='Spielt Musik ab (nur für Berechtigte)',inline=True)
+        embed.add_field(name='**stop**',value='Stoppt das abspielen von Musik (nur für Berechtigte)',inline=True)
+        embed.add_field(name='**pause**',value='Pausiert das abspielen von Musik (nur für Berechtigte)',inline=True)
+        embed.add_field(name='**resume**',value='Setzt das abspielen von Musik fort (nur für Berechtigte)',inline=True)
+        embed.add_field(name='**userinfo** [user]',value='Zeigt Informationen über User an',inline=True)
+        embed.add_field(name='**clear** [anzahl]',value='Löscht Nachrichten (nur für Berechtigte)',inline=True)
+        embed.add_field(name='**8ball** [frage]',value='Wahrsagefunktion',inline=True)
+        embed.add_field(name='**temp**',value='Zeigt die Temperatur des servers vom bot an',inline=True)
+        embed.add_field(name='**ping**',value='zur überprüfung der Latenz',inline=True)
+        embed.add_field(name='**embed** [text]',value='sendet ein embed (nur für Berechtigte)',inline=True)
+        embed.add_field(name='**flip**',value='coinflip funktion',inline=True)
+        embed.add_field(name='**vid**',value='für video anoucementss',inline=True)
+        await ctx.send(embed=embed)
 
 @bot.command()
-@commands.has_permissions(change_nickname=True)
-async def embed(ctx, *, text):
+@commands.has_permissions(administrator=True)
+async def vid(ctx, link):
     await ctx.channel.purge(limit=1)
-    embed = discord.Embed(title='👥 | {}'.format(ctx.author.name),color=random.choice(embedcollor))
-    embed.add_field(name='{}'.format(text),value='** **',inline=True)
-    embed.set_thumbnail(url=ctx.author.avatar_url)
-    await ctx.send(embed=embed)
+    guild = bot.get_guild(597787927476699157)
+    ping = guild.get_role(792113253421154314)
+    await ctx.send('{0} Neues Video {1}'.format(ping.mention ,link))
 
-@embed.error
-async def embed_error(ctx, error):
+@vid.error
+async def vid_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         embed = discord.Embed(title='**Error** ',color=random.choice(embedcollor))
         embed.add_field(name='Du darft diesen Befehl nicht benutzen',value='** **',inline=True)
@@ -274,6 +221,16 @@ async def embed_error(ctx, error):
         embed.add_field(name='hmm da fehlt was',value='** **',inline=True)
         await ctx.send(embed=embed)
 
+@bot.command()
+@commands.has_permissions(change_nickname=True)
+async def embed(ctx, *, text):
+    await ctx.channel.purge(limit=1)
+    embed = discord.Embed(title='👥 | {}'.format(ctx.author.name),color=random.choice(embedcollor))
+    embed.add_field(name='{}'.format(text),value='** **',inline=True)
+    embed.set_thumbnail(url=ctx.author.avatar_url)
+    await ctx.send(embed=embed)
+
+792113253421154314
 @bot.command()
 @commands.has_permissions(administrator=True)
 async def gstart(ctx, *, arg):
